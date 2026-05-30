@@ -1,0 +1,7 @@
+awk '{v=$2+0; if (v < 0) v=-v; if (v >= 1.0 && v < 2.0) print $1}' shear_log.txt | while read f; do
+  file="dataset/images/train/$f.jpg"
+  [ ! -f "$file" ] && file="dataset/images/val/$f.jpg"
+  echo "$f"
+  open "$file"
+  read -r
+done

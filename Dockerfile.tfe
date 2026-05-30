@@ -1,0 +1,16 @@
+FROM python:3.12-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git cmake \
+    libmagick++-dev libxml2-dev libxslt-dev \
+    libopencv-dev libgdal-dev swig pkg-config
+
+RUN pip3 install pkgconfig setuptools wheel uv && \
+    git clone --recurse-submodules https://github.com/omni-us/pagexml.git /tmp/pagexml && \
+    cd /tmp/pagexml/py-pagexml && \
+    pip3 install --no-build-isolation . && \
+    cd /tmp/pagexml/py-textfeat && \
+    pip3 install --no-build-isolation . && \
+    rm -rf /tmp/pagexml

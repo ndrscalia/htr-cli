@@ -1,4 +1,3 @@
-from typing import Annotated
 from rich.progress import track
 import typer
 import cv2
@@ -69,7 +68,7 @@ def process_images_tfe():
     seen_lines: set[str] = set()
     if paths.CHECKPOINT.exists():
         with open(paths.CHECKPOINT, "r") as f:
-            seen_lines = {l.strip() for l in f.readlines()}
+            seen_lines = {s.strip() for s in f.readlines()}
 
     for line in track(content, description="Extracting lines", total=len(content)):
 

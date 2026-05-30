@@ -98,7 +98,7 @@ def process_images(
     seen_lines: set[str] = set()
     if paths.CHECKPOINT.exists():
         with open(paths.CHECKPOINT, "r") as f:
-            seen_lines = {l.strip() for l in f.readlines()}
+            seen_lines = {s.strip() for s in f.readlines()}
 
     for line in track(content, description="Extracting lines", total=len(content)):
         region_key = utils.normalize_region(line["region_id"])

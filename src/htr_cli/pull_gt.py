@@ -1,7 +1,7 @@
 import typer
 import requests
 from rich.progress import track
-from pathlib import Path, PosixPath
+from pathlib import Path
 from typing import Annotated
 from transkribus import TranskribusAPI
 from transkribus.models import Collection

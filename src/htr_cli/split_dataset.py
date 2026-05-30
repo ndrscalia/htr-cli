@@ -58,7 +58,7 @@ def split_dataset(
     segments_df["tok_line_text"] = segments_df["line_text"].apply(lambda x: " ".join(char if char != " " else "<space>" for char in x))
 
     if omit_unclear:
-        segments_df = segments_df[segments_df["unclear_tag"] == False]
+        segments_df = segments_df[not segments_df["unclear_tag"] == False] # noqa: E712
 
     test_pages = None
     test_df = None

@@ -81,7 +81,7 @@ Creates the directory layout the rest of the pipeline expects:
 ### pull-transkribus
 Downloads GT pages from Transkribus (default). For every collection, walks documents and pages, filtering by `--page-status`, and writes each page's image do `data/images/` and its PAGE-XML counterpart to `data/xml_tests/`.
 Naming pattern: `{collection}_{docId}_{pageId}_{imageId}_{filename}.{jpg,xml}`.
-This subcommand relies on (transkribus-client)[https://pypi.org/project/transkribus-client/], which in turn relies on legacy API that might be discontinued soon.
+This subcommand relies on [transkribus-client](https://pypi.org/project/transkribus-client/), which in turn relies on legacy API that might be discontinued soon.
 
 ### data-extraction
 Parses every XML found in `data/xml_texts/` and emits the intermediate dataset files:
@@ -182,7 +182,7 @@ The Dockerfile only installs the C++ deps (`pagexml`, `textfeat`); install the C
 - Further post-processing options to get better CER and WER.
 - Standard configs file to easier PyLaia's use.
 - ALTO XML format support.
-- (Kraken) [https://github.com/mittagessen/kraken] support.
+- [Kraken](https://github.com/mittagessen/kraken) support.
 
 
 [^1]:   This feature relies on legacy API. It might not work anymore in

@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from rich.progress import track
 import typer
 import cv2
@@ -10,7 +12,84 @@ from . import utils
 app = typer.Typer(rich_markup_mode="rich")
 
 @app.command(rich_help_panel="Pre-processing")
-def process_images_tfe():
+def process_images_tfe(
+        norm_height: Annotated[
+            int,
+            typer.Option(help="Height normalization value in pixels.")
+            ] = 64,
+        norm_x_height: Annotated[
+            int,
+            typer.Option(help="x-height normalization value (0 disables; alternative to --norm-height).")
+            ] = 0,
+        padding: Annotated[
+            int,
+            typer.Option(help="Horizontal padding (px) added to each side of the output line.")
+            ] = 10,
+        maxwidth: Annotated[
+            int,
+            typer.Option(help="Maximum width (px) of the output line.")
+            ] = 6000,
+        enh_win: Annotated[
+            int,
+            typer.Option(help="Window size for the Sauvola-style enhancement.")
+            ] = 30,
+        enh_prm: Annotated[
+            float,
+            typer.Option(help="k parameter for the Sauvola-style enhancement.")
+            ] = 0.1,
+        enh3_prm0: Annotated[
+            int,
+            typer.Option(help="Reserved enhancement parameter 0 (advanced; see TFE docs).")
+            ] = 0,
+        enh3_prm2: Annotated[
+            int,
+            typer.Option(help="Reserved enhancement parameter 2 (advanced; see TFE docs).")
+            ] = 0,
+        stretch: Annotated[
+            bool,
+            typer.Option(
+                "--no-stretch",
+                help="Disable contrast stretch.",
+                show_default=False
+                )
+            ] = True,
+        enh: Annotated[
+            bool,
+            typer.Option(
+                "--no-enh",
+                help="Disable Sauvola-style enhancement.",
+                show_default=False
+                )
+            ] = True,
+        deslope: Annotated[
+            bool,
+            typer.Option(
+                "--no-deslope",
+                help="Disable deslope.",
+                show_default=False
+                )
+            ] = True,
+        deslant: Annotated[
+            bool,
+            typer.Option(
+                "--no-deslant",
+                help="Disable deslant.",
+                show_default=False
+                )
+            ] = True,
+        momentnorm: Annotated[
+            bool,
+            typer.Option(
+                "--no-momentnorm",
+                help="Disable moment normalization.",
+                show_default=False
+                )
+            ] = True,
+        fcontour_dilate: Annotated[
+            int,
+            typer.Option(help="Dilation amount (px) applied to the feature contour (0 disables).")
+            ] = 0,
+        ):
     """
     Extract line images and apply preprocessing to each one using `TextFeatExtractor`. Only runs on Linux. Check the docs for a working docker image.
     """
@@ -26,23 +105,23 @@ def process_images_tfe():
     tfe = TextFeatExtractor(
       #type="raw",
       #format="img",
-      stretch=True,
-      enh=True,
-      enh_win=30,
-      enh_prm=0.1,
+      stretch=stretch,
+      enh=enh,
+      enh_win=enh_win,
+      enh_prm=enh_prm,
       #enh_prm_rand =[0.05, 0.3],
-      enh3_prm0 = 0,
-      enh3_prm2 = 0,
-      deslope=True,
-      deslant=True,
-      normxheight=0,
-      normheight=64,
-      momentnorm=True,
+      enh3_prm0=enh3_prm0,
+      enh3_prm2=enh3_prm2,
+      deslope=deslope,
+      deslant=deslant,
+      normxheight=norm_x_height,
+      normheight=norm_height,
+      momentnorm=momentnorm,
       #fpgram=True,
       #fcontour=True,
-      fcontour_dilate=0,
-      padding=10,
-      maxwidth=6000
+      fcontour_dilate=fcontour_dilate,
+      padding=padding,
+      maxwidth=maxwidth
     )
 
     tfe.printConf()

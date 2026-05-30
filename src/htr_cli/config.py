@@ -5,7 +5,7 @@ import tomllib
 import tomli_w
 from platformdirs import user_config_dir
 
-SERVICE = "htr-prep"
+SERVICE = "htr-cli"
 CONFIG_DIR = Path(user_config_dir(appname=SERVICE))
 CONFIG_FILE = CONFIG_DIR / "config.toml"
 

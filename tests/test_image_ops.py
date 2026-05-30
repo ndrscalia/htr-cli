@@ -1,6 +1,6 @@
 import numpy as np
 
-from htr_prep.utils import (
+from htr_cli.utils import (
     contrast_stretch,
     deslant,
     deslope,

@@ -1,7 +1,7 @@
 import pytest
 from typer.testing import CliRunner
 
-from htr_prep.cli import app
+from htr_cli.cli import app
 
 runner = CliRunner()
 

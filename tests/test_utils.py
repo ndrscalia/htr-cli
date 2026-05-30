@@ -2,7 +2,7 @@ from pathlib import Path
 
 from rich.tree import Tree
 
-from htr_prep.utils import (
+from htr_cli.utils import (
     build_tree,
     get_custom_field,
     normalize_region,

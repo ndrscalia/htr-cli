@@ -1,4 +1,4 @@
-# TextFeatExtractor vs htr-prep parameter cheatsheet
+# TextFeatExtractor vs htr-cli parameter cheatsheet
 
 | TFE parameter | Type | Our equivalent | Notes |
 |---|---|---|---|

@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "htr-prep"
+name = "htr-cli"
 version = "0.1.0"
 description = "CLI for preparing Handwritten Text Recognition (HTR) datasets for PyLaia traininig."
 readme = "README.md"
@@ -52,19 +52,19 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ndrscalia/htr-prep"
+Homepage = "https://github.com/ndrscalia/htr-cli"
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-cov>5", "ruff>0.6"]
 
 [project.scripts]
-htr-prep = "htr_prep.cli:app"
+htr-cli = "htr_cli.cli:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/htr_prep"]
+packages = ["src/htr_cli"]
 
 [tool.hatch.version]
-path = "src/htr_prep/__init__.py"
+path = "src/htr_cli/__init__.py"
 
 [tool.uv]
 override-dependencies = [

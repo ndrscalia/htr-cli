@@ -1,10 +1,17 @@
-# HTR CLI
-[![PyPI version](https://img.shields.io/pypi/v/htr-cli.svg)](https://pypi.org/project/htr-cli/)
-[![Python versions](https://img.shields.io/pypi/pyversions/htr-cli.svg)](https://pypi.org/project/htr-cli/)
-[![CI](https://github.com/ndrscalia/htr-cli/actions/workflows/test.yml/badge.svg)](https://github.com/ndrscalia/htr-cli/actions/workflows/test.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ndrscalia/htr-cli/blob/main/LICENSE)
+<p align="center">
+  <img src="docs/banner.svg" alt="HTR CLI" width="100%">
+</p>
 
-This CLI tool offers a quick way to (optionally) pull PAGE-XML data from Transkribus[^1] and to prepare perfectly a perfectly valid `dataset/` directory ready for feeding PyLaia.
+<p align="center">
+  <a href="https://pypi.org/project/htr-cli/"><img src="https://img.shields.io/pypi/v/htr-cli.svg" alt="PyPI version"></a>
+  <a href="https://github.com/ndrscalia/htr-cli/actions/workflows/test.yml"><img src="https://github.com/ndrscalia/htr-cli/actions/workflows/test.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/ndrscalia/htr-cli/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+</p>
+<p align="center">
+    CLI for preparing HTR datasets
+    </p>
+
+This CLI tool offers a quick way to (optionally) pull PAGE-XML data from Transkribus[^1] and to prepare perfectly valid `dataset/` directory ready for feeding PyLaia.
 
 If you find any value in this project please leave a star and consider to offer me a coffee (Paypal or Github sponsor).
 

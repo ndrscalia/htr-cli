@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/banner.svg" alt="HTR CLI" width="100%">
+  <img src="docs/htr-cli-banner.svg" alt="HTR CLI" width="100%">
 </p>
 
 <p align="center">
@@ -7,9 +7,10 @@
   <a href="https://github.com/ndrscalia/htr-cli/actions/workflows/test.yml"><img src="https://github.com/ndrscalia/htr-cli/actions/workflows/test.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/ndrscalia/htr-cli/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
 </p>
-<p align="center">
+
+<h1 align="center">
     CLI for preparing HTR datasets
-    </p>
+    </h1>
 
 This CLI tool offers a quick way to (optionally) pull PAGE-XML data from Transkribus[^1] and to prepare perfectly valid `dataset/` directory ready for feeding PyLaia.
 
@@ -132,7 +133,7 @@ Final image is resized to `norm_height` (positional arg, default 64 px) preservi
 At the beginning of every run, `dataset/images_processing_ckpt.txt` is written and allows to interrupt and resume processing. If you want to abort processing the images and start from scratch, you have to delete that file.
 
 ### process-images-tfe
-Same as `process-image`, but uses (TextFeatExtractor)[https://github.com/omni-us/pagexml] C++ library and the default parameters are based on Transkribus' params:
+Same as `process-image`, but uses [TextFeatExtractor](https://github.com/omni-us/pagexml) C++ library and the default parameters are based on Transkribus' params:
 
 ```python
 tfe = TextFeatExtractor(

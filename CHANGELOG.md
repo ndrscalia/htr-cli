@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2] - 2026-06-01
+- Make `transkribus-client` an optional extra (`htr-cli[transkribus]`). The `pull-transkribus` subcommand now lazy-imports it and raises a friendly error if missing.
+- This lets pip/pipx users install the base package without hitting `transkribus-client`'s `lxml==4.6.3` pin.
+
 ## [0.1.1] - 2026-06-01
 - Lower `lxml` lower bound to `>=4.6.3` so the published wheel can resolve alongside `transkribus-client`'s `lxml==4.6.3` pin.
 

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "htr-cli"
-version = "0.1.1"
+version = "0.1.2"
 description = "CLI for preparing Handwritten Text Recognition (HTR) datasets for PyLaia traininig."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -36,7 +36,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-    "lxml>=4.6.3",
+    "lxml>=5.0",
     "numpy>=2.0",
     "opencv-python>=4.10",
     "pandas>=3.0",
@@ -44,7 +44,6 @@ dependencies = [
     "scikit-learn>=1.8",
     "tqdm>=4.60",
     "typer>=0.15",
-    "transkribus-client>=0.3",
     "keyring>=25.7.0",
     "tomli-w>=1.2.0",
     "platformdirs>=4.9.6",
@@ -56,6 +55,7 @@ Homepage = "https://github.com/ndrscalia/htr-cli"
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-cov>5", "ruff>0.6"]
+transkribus = ["transkribus-client>=0.3"]
 
 [project.scripts]
 htr-cli = "htr_cli.cli:app"

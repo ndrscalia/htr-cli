@@ -3,8 +3,6 @@ import requests
 from rich.progress import track
 from pathlib import Path
 from typing import Annotated
-from transkribus import TranskribusAPI
-from transkribus.models import Collection
 
 from enum import Enum
 
@@ -33,6 +31,16 @@ def pull_transkribus(
     """
     Download xml and jpg files from Transkribus based on page status.
     """
+    try:
+        from transkribus import TranskribusAPI
+        from transkribus.models import Collection
+    except ImportError as e:
+        raise typer.BadParameter(
+                "pull-transkribus requires the `transkribus` extra. "
+                "Install with: `uv tool install --override overrides.txt 'htr-cli[transkribus]'` "
+                f"(see README for the lxml override file). ({e})"
+                )
+
     tr_password = config.get_password()
     tr_username = config.get_email()
 

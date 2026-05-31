@@ -17,45 +17,42 @@ This CLI tool offers a quick way to (optionally) pull PAGE-XML data from Transkr
 If you find any value in this project please leave a star and consider to offer me a coffee (Paypal or Github sponsor).
 
 ## Installation
-The package is published on PyPi as `htr-cli` and can be installed with pip / pipx:
-```bash
-pip install htr-cli
-# or, recommended:
-pipx install htr-cli
-```
 
-With uv:
 ```bash
 uv tool install htr-cli
+# or
+pipx install htr-cli
+# or
+pip install htr-cli
 ```
 
 Verify the install:
-```
+```bash
 htr-cli --help
 ```
+
+`pull-transkribus` depends on [transkribus-client](https://pypi.org/project/transkribus-client/), which pins `lxml==4.6.3` (no wheels for Python 3.11+ on most platforms). Until that pin is relaxed upstream, you need to override it at install time. `uv` is the only package manager that supports this cleanly.
+
+```bash
+echo "lxml>=5.0" > overrides.txt
+uv tool install --override overrides.txt 'htr-cli[transkribus]'
+```
+
 
 For devs:
 ```bash
 git clone https://github.com/ndrscalia/htr-cli.git
 cd htr-cli
-python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]" # or `uv sync --all-extras` with no venv activation
+uv sync --all-extras # override already wired in pyproject.toml
 ```
 
 Run the test suite:
 ```bash
-# with pip:
-pytest
-ruff check .
-
-# with uv (no venv activation)
 uv run pytest
 uv run ruff check
 ```
 
 ## Usage
-
 The CLI exposes the following sub-commands (in pipeline order):
 
 ```bash
@@ -90,6 +87,7 @@ Creates the directory layout the rest of the pipeline expects:
 Downloads GT pages from Transkribus (default). For every collection, walks documents and pages, filtering by `--page-status`, and writes each page's image do `data/images/` and its PAGE-XML counterpart to `data/xml_tests/`.
 Naming pattern: `{collection}_{docId}_{pageId}_{imageId}_{filename}.{jpg,xml}`.
 This subcommand relies on [transkribus-client](https://pypi.org/project/transkribus-client/), which in turn relies on legacy API that might be discontinued soon.
+Install with the optional [transkribus] extra (see the installation section above).
 
 ### data-extraction
 Parses every XML found in `data/xml_texts/` and emits the intermediate dataset files:

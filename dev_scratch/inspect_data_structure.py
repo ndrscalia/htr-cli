@@ -7,7 +7,7 @@ from transkribus import TranskribusAPI
 from transkribus.models import Collection
 
 api = TranskribusAPI()
-api.login("andrea.scalia@unicatt.it", "xowvU4-binjuk-rekboj")
+api.login()
 
 initial_cwd = os.getcwd()
 

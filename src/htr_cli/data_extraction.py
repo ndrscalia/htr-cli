@@ -1,4 +1,5 @@
 import json
+import unicodedata
 import re
 from typing import Annotated, Optional
 import typer
@@ -118,7 +119,7 @@ def data_extraction(
         chars = []
         for string in full_text:
             for char in string:
-                chars.append(" " if char == "\u00a0" else char) # nbsp is treated as space
+                chars.append(" " if unicodedata.category(char) == "Zs" or char == "\t" else char) # every space sep and tab is treated as space
 
         f.write("<ctc> 0\n")
 
@@ -139,7 +140,7 @@ def data_extraction(
         chars = []
         for string in full_text:
             for char in string:
-                chars.append(" " if char == "\u00a0" else char) # nbsp is treated as space
+                chars.append(" " if unicodedata.category(char) == "Zs" or char == "\t" else char) # every space sep and tab is treated as space
 
         f.write("<ctc>\n")
 
@@ -157,7 +158,7 @@ def data_extraction(
         chars = []
         for string in full_text:
             for char in string:
-                chars.append(" " if char == "\u00a0" else char) # nbsp is treated as space
+                chars.append(" " if unicodedata.category(char) == "Zs" or char == "\t" else char) # every space sep and tab is treated as space
 
         f.write("<ctc> <ctc>\n")
 

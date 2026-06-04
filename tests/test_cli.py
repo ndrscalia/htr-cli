@@ -37,3 +37,10 @@ def test_subcommand_help_exits_zero(subcommand):
 def test_unknown_subcommand_fails():
     result = runner.invoke(app, ["definitely-not-a-real-command"])
     assert result.exit_code != 0
+
+
+def test_split_dataset_lists_custom_split_flags():
+    result = runner.invoke(app, ["split-dataset", "--help"])
+    assert result.exit_code == 0
+    for flag in ("--custom-train", "--custom-val", "--custom-test"):
+        assert flag in result.stdout, f"missing {flag} in split-dataset --help"

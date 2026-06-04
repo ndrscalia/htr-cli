@@ -12,10 +12,15 @@ app = typer.Typer(rich_markup_mode="rich")
 
 
 def _read_page_set(path: Path) -> set[str]:
-    # Split on "_reg-" so we accept both bare page names and full line ids
-    # (the latter is what this command writes to {train,val,test}_ids.txt).
+    # Strip any leading "{split}/" prefix and split on "_reg-" so we accept
+    # bare page names, full line ids, and the prefixed line ids this command
+    # writes to {train,val,test}_ids.txt.
     with open(path) as f:
-        return {line.strip().split("_reg-")[0] for line in f if line.strip()}
+        return {
+            line.strip().split("/")[-1].split("_reg-")[0]
+            for line in f
+            if line.strip()
+        }
 
 
 def _subset(df: pd.DataFrame, pages) -> pd.DataFrame:

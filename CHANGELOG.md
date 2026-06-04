@@ -2,6 +2,7 @@
 
 ## [0.2.0] - 2026-06-04
 - Add `--custom-train`, `--custom-val`, `--custom-test` flags to `split-dataset` for supplying pre-determined page splits via text files. Files accept page names or full line ids, so the `dataset/{train,val,test}_ids.txt` files this command writes can be fed back in to reproduce a previous split.
+- Fixed pre-existing bug at the omit-unclear filter and added an explicit switch for this option (`--no-omit-unclear` / `-U`).
 
 ## [0.1.2] - 2026-06-01
 - Make `transkribus-client` an optional extra (`htr-cli[transkribus]`). The `pull-transkribus` subcommand now lazy-imports it and raises a friendly error if missing.

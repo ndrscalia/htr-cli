@@ -30,8 +30,8 @@ def split_dataset(
         omit_unclear: Annotated[
             bool,
             typer.Option(
-                "--omit-unclear",
-                "-u",
+                "--omit-unclear/--no-omit-unclear",
+                "-u/-U",
                 help="Omit lines where an 'unclear' tag appears."
                 )
             ] = True,

@@ -31,4 +31,4 @@ LEX_TXT = DATASET_DIR / "lexicon_characters.txt" # this is needed to predict wit
 DICTIONARY = DATASET_DIR / "dictionary.txt" # this is used for postprocessing with LM, not for PyLaia
 
 # summary
-DIRS = [DATA_DIR, IMAGES_DIR, XML_DIR, DATASET_DIR, TRAIN_IMAGES, VAL_IMAGES]
+DIRS = [DATA_DIR, IMAGES_DIR, XML_DIR, DATASET_DIR, TRAIN_IMAGES, VAL_IMAGES, TEST_IMAGES]

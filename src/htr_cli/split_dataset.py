@@ -1,6 +1,7 @@
 import typer
 import pandas as pd
-from typing import Annotated
+from pathlib import Path
+from typing import Annotated, Optional
 from sklearn.model_selection import train_test_split
 from rich import print
 
@@ -9,13 +10,33 @@ from . import utils
 
 app = typer.Typer(rich_markup_mode="rich")
 
+
+def _read_page_set(path: Path) -> set[str]:
+    # Strip any leading "{split}/" prefix and split on "_reg-" so we accept
+    # bare page names, full line ids, and the prefixed line ids this command
+    # writes to {train,val,test}_ids.txt.
+    with open(path) as f:
+        return {
+            line.strip().split("/")[-1].split("_reg-")[0]
+            for line in f
+            if line.strip()
+        }
+
+
+def _subset(df: pd.DataFrame, pages) -> pd.DataFrame:
+    return (
+        df[df["page"].isin(pages)]
+        .sort_values(["page", "region_order", "reading_order"], kind="stable")
+    )
+
+
 @app.command(rich_help_panel="Pre-processing")
 def split_dataset(
         omit_unclear: Annotated[
             bool,
             typer.Option(
-                "--omit-unclear",
-                "-u",
+                "--omit-unclear/--no-omit-unclear",
+                "-u/-U",
                 help="Omit lines where an 'unclear' tag appears."
                 )
             ] = True,
@@ -32,7 +53,28 @@ def split_dataset(
                 "--test-size",
                 help="Choose test set size."
                 )
-            ] = 0
+            ] = 0,
+        custom_train: Annotated[
+            Optional[Path],
+            typer.Option(
+                "--custom-train",
+                help="Path to a file listing pages for the train split (one id per line; accepts page names or full line ids). When set, --val-size and --test-size are ignored."
+                )
+            ] = None,
+        custom_val: Annotated[
+            Optional[Path],
+            typer.Option(
+                "--custom-val",
+                help="Path to a file listing pages for the val split. Required when --custom-train is set."
+                )
+            ] = None,
+        custom_test: Annotated[
+            Optional[Path],
+            typer.Option(
+                "--custom-test",
+                help="Path to a file listing pages for the test split. Optional even when other custom files are set."
+                )
+            ] = None,
         ):
     """
     Extract tokenized and non-tokenized text lines, split for training, test, and validation, and generate corresponding ids files.
@@ -58,39 +100,44 @@ def split_dataset(
     segments_df["tok_line_text"] = segments_df["line_text"].apply(lambda x: " ".join(char if char != " " else "<space>" for char in x))
 
     if omit_unclear:
-        segments_df = segments_df[not segments_df["unclear_tag"] == False] # noqa: E712
+        segments_df = segments_df[~segments_df["unclear_tag"]]
 
-    test_pages = None
-    test_df = None
-    page_ids = segments_df["page"].unique()
+    if custom_train or custom_val or custom_test:
+        if not (custom_train and custom_val):
+            raise typer.BadParameter("--custom-train and --custom-val must both be provided when using custom splits.")
 
-    if test_size == 0:
-        first_split = val_size / 100
+        train_pages = _read_page_set(custom_train)
+        val_pages = _read_page_set(custom_val)
+        test_pages = _read_page_set(custom_test) if custom_test else None
 
-        train_pages, val_pages = train_test_split(page_ids, test_size=first_split, random_state=42)
+        overlaps = []
+        if train_pages & val_pages:
+            overlaps.append(f"train ∩ val: {sorted(train_pages & val_pages)[:3]}")
+        if test_pages is not None:
+            if train_pages & test_pages:
+                overlaps.append(f"train ∩ test: {sorted(train_pages & test_pages)[:3]}")
+            if val_pages & test_pages:
+                overlaps.append(f"val ∩ test: {sorted(val_pages & test_pages)[:3]}")
+        if overlaps:
+            raise typer.BadParameter("Custom splits overlap: " + "; ".join(overlaps))
 
-        train_df = segments_df[segments_df["page"].isin(train_pages)]
-        train_df = train_df.sort_values(["page", "region_order", "reading_order"], kind="stable")
+        all_custom = train_pages | val_pages | (test_pages or set())
+        missing = all_custom - set(segments_df["page"].unique())
+        if missing:
+            sample = sorted(missing)[:5]
+            print(f"[yellow]warning: {len(missing)} page(s) from custom files not present in lines.csv (likely filtered by --omit-unclear or missing reading_order). Sample: {sample}[/yellow]")
+    else:
+        page_ids = segments_df["page"].unique()
+        if test_size == 0:
+            train_pages, val_pages = train_test_split(page_ids, test_size=val_size / 100, random_state=42)
+            test_pages = None
+        else:
+            train_pages, holdout = train_test_split(page_ids, test_size=(val_size + test_size) / 100, random_state=42)
+            val_pages, test_pages = train_test_split(holdout, test_size=test_size / (val_size + test_size), random_state=42)
 
-        val_df = segments_df[segments_df["page"].isin(val_pages)]
-        val_df = val_df.sort_values(["page", "region_order", "reading_order"], kind="stable")
-    if test_size != 0:
-        first_split = (val_size + test_size) / 100
-
-        train_pages, val_pages = train_test_split(page_ids, test_size=first_split, random_state=42)
-
-        train_df = segments_df[segments_df["page"].isin(train_pages)]
-        train_df = train_df.sort_values(["page", "region_order", "reading_order"], kind="stable")
-
-        second_split = test_size / (val_size + test_size)
-
-        val_pages, test_pages = train_test_split(val_pages, test_size=second_split, random_state=42)
-
-        val_df = segments_df[segments_df["page"].isin(val_pages)]
-        val_df = val_df.sort_values(["page", "region_order", "reading_order"], kind="stable")
-
-        test_df = segments_df[segments_df["page"].isin(test_pages)]
-        test_df = test_df.sort_values(["page", "region_order", "reading_order"], kind="stable")
+    train_df = _subset(segments_df, train_pages)
+    val_df = _subset(segments_df, val_pages)
+    test_df = _subset(segments_df, test_pages) if test_pages is not None else None
 
 
     with open(paths.CORPUS_CHAR, "w") as f:

@@ -113,6 +113,8 @@ Reads `lines.csv` and partitions by **page** (not line) using a deterministic ra
 
 If you only want validation set, skip passing `--test-size`.
 
+To supply your own page-level split instead of the random one, pass `--custom-train` / `--custom-val` / `--custom-test`, each pointing at a text file with one id per line. Files accept either bare page names or full line ids, so the `dataset/{train,val,test}_ids.txt` files this command writes can be fed back in to reproduce a previous split. `--custom-test` is optional (omit it for a train+val split). When any custom flag is set, `--val-size` and `--test-size` are ignored.
+
 This subcommand write the following files:
 - `dataset/{train,val,test}_ids.txt`
 - `dataset/{train,val,test}.txt`

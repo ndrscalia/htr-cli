@@ -1,9 +1,13 @@
+import re
+
 import pytest
 from typer.testing import CliRunner
 
 from htr_cli.cli import app
 
 runner = CliRunner()
+
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 
 EXPECTED_SUBCOMMANDS = {
     "init",
@@ -42,5 +46,8 @@ def test_unknown_subcommand_fails():
 def test_split_dataset_lists_custom_split_flags():
     result = runner.invoke(app, ["split-dataset", "--help"])
     assert result.exit_code == 0
+    # Rich colorizes flag names by wrapping each `-{token}` chunk in its own ANSI
+    # span, which breaks plain substring checks under CI's FORCE_COLOR=1.
+    plain = _ANSI_RE.sub("", result.stdout)
     for flag in ("--custom-train", "--custom-val", "--custom-test"):
-        assert flag in result.stdout, f"missing {flag} in split-dataset --help"
+        assert flag in plain, f"missing {flag} in split-dataset --help"

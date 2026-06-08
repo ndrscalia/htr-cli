@@ -28,8 +28,6 @@ def data_extraction(
     """
     This command extracts text for every line (lines.csv), build syms.txt, and creates polygons_coordinates.json for segments extraction from images.
     """
-    ns = {"page": "http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"}
-
     segments_df = pd.DataFrame(
             columns=[
                 "page",
@@ -49,6 +47,9 @@ def data_extraction(
 
             tree = etree.parse(current_file)
             elem = tree.getroot()
+
+            ns_uri = etree.QName(elem.tag).namespace
+            ns = {"page": ns_uri} if ns_uri else {}
 
             regions = elem.findall(".//page:TextRegion", namespaces=ns)
 

@@ -13,6 +13,7 @@ EXPECTED_SUBCOMMANDS = {
     "init",
     "scaffold",
     "pull-transkribus",
+    "port-escriptorium",
     "data-extraction",
     "split-dataset",
     "process-images",

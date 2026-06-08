@@ -1,12 +1,26 @@
 import re
 import cv2
 import numpy as np
+from pathlib import Path
 from rich.tree import Tree
 
 #---------- GENERAL PURPOSE -----------#
 
 _REGION_TR_PREFIX = re.compile(r"^tr_(\d+)$")
 _READING_ORDER_PAT = re.compile(r"readingOrder\s*\{index:(\d+);")
+_IMG_EXTS = (".jpg", ".jpeg", ".png", ".tif", ".tiff")
+
+
+def find_extension(images_dir, page_stem: str) -> str | None:
+    """
+    Locate `{page_stem}.<ext>` under `images_dir`, probing common image
+    extensions. Returns the full path as a string, or None if no match.
+    """
+    for ext in _IMG_EXTS:
+        candidate = Path(images_dir) / f"{page_stem}{ext}"
+        if candidate.exists():
+            return str(candidate)
+    return None
 
 def normalize_region(region_id: str) -> str:
     """
@@ -40,6 +54,8 @@ def get_custom_field(custom, group, key):
     """
     Useful to navigate tags in PAGE XML.
     """
+    if not custom:
+        return None
     match = re.search(rf"{group} \{{{key}:([^;}}]+)", custom)
     return match.group(1) if match else None
 

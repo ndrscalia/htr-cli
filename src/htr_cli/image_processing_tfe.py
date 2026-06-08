@@ -169,7 +169,10 @@ def process_images_tfe(
         else:
             continue # skip images that where filtered out because of the unclear_tag in split_dataset.py
 
-        img = cv2.imread(f"{paths.IMAGES_DIR}/{line['page']}.jpg")
+        img_path = utils.find_extension(paths.IMAGES_DIR, line["page"])
+        if img_path is None:
+            continue
+        img = cv2.imread(img_path)
         pts = np.array([[int(n) for n in c.split(",")] for c in line["coords"].split()])
         mask = np.zeros(img.shape[:2], dtype=np.uint8)
         cv2.fillPoly(mask, [pts], 255)

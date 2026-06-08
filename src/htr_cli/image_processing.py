@@ -118,7 +118,10 @@ def process_images(
         else:
             continue # skip images that where filtered out because of the unclear_tag in split_dataset.py
 
-        img = cv2.imread(f"{paths.IMAGES_DIR}/{line['page']}.jpg")
+        img_path = utils.find_extension(paths.IMAGES_DIR, line["page"])
+        if img_path is None:
+            continue
+        img = cv2.imread(img_path)
 
         pts = []
 

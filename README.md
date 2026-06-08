@@ -89,6 +89,16 @@ Naming pattern: `{collection}_{docId}_{pageId}_{imageId}_{filename}.{jpg,xml}`.
 This subcommand relies on [transkribus-client](https://pypi.org/project/transkribus-client/), which in turn relies on legacy API that might be discontinued soon.
 Install with the optional [transkribus] extra (see the installation section above).
 
+### port-escriptorium
+Normalizes eScriptorium-style PAGE-XML into the Transkribus convention for which `data-extraction` was written.
+    - lines get nested in the typed `TextRegion`;
+    - `readingOrder` is injected on regions and lines;
+    - already compliant files are skipped;
+    - anchor for assignment + sort is the baseline midpoint (with polygon's centroid as fallback), because a centroid can land just outside a region's bbox even if it belongs to it.
+
+>[!WARNING]
+>Files are modified in place. If needed, prepare a backup version.
+
 ### data-extraction
 Parses every XML found in `data/xml_texts/` and emits the intermediate dataset files:
 

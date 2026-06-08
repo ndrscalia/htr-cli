@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0] - 2026-06-09
+- Add `port-escriptorium` subcommand:
+    - normalizes eScriptorium-style PAGE-XML into the Transkribus convention for which `data-extraction` was written;
+    - lines get nested in the typed `TextRegion`;
+    - `readingOrder` is injected on regions and lines;
+    - already compliant files are skipped;
+    - files are modified in place;
+    - anchor for assignment + sort is the baseline midpoint (with polygon's centroid as fallback), because a centroid can land just outside a region's bbox even if it belongs to it.
+- Add helper to let `data-extraction` find the images regardless of extension.
+- Add dynamical namespace reading to avoid `data-extraction` crashing with PAGE-XML 2019 schema.
+
 ## [0.2.0] - 2026-06-04
 - Add `--custom-train`, `--custom-val`, `--custom-test` flags to `split-dataset` for supplying pre-determined page splits via text files. Files accept page names or full line ids, so the `dataset/{train,val,test}_ids.txt` files this command writes can be fed back in to reproduce a previous split.
 - Fixed pre-existing bug at the omit-unclear filter and added an explicit switch for this option (`--no-omit-unclear` / `-U`).

@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.3.1] - 2026-06-12
+- Fix `process-images` and `process-images-tfe` boolean toggle flags that were silently no-ops because they used a single `--no-X` name instead of the `--X/--no-X` slash form Typer requires for on/off behavior.
+
 ## [0.3.0] - 2026-06-09
 - Add `port-escriptorium` subcommand:
     - normalizes eScriptorium-style PAGE-XML into the Transkribus convention for which `data-extraction` was written;

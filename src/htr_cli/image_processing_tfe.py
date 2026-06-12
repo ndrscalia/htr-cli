@@ -48,40 +48,40 @@ def process_images_tfe(
         stretch: Annotated[
             bool,
             typer.Option(
-                "--no-stretch",
-                help="Disable contrast stretch.",
+                "--stretch/--no-stretch",
+                help="Disable contrast stretch with `--no-stretch`.",
                 show_default=False
                 )
             ] = True,
         enh: Annotated[
             bool,
             typer.Option(
-                "--no-enh",
-                help="Disable Sauvola-style enhancement.",
+                "--enh/--no-enh",
+                help="Disable Sauvola-style enhancement with `--no-enh`.",
                 show_default=False
                 )
             ] = True,
         deslope: Annotated[
             bool,
             typer.Option(
-                "--no-deslope",
-                help="Disable deslope.",
+                "--deslope/--no-deslope",
+                help="Disable deslope with `--no-deslope`.",
                 show_default=False
                 )
             ] = True,
         deslant: Annotated[
             bool,
             typer.Option(
-                "--no-deslant",
-                help="Disable deslant.",
+                "--deslant/--no-deslant",
+                help="Disable deslant with `--no-deslant`.",
                 show_default=False
                 )
             ] = True,
         momentnorm: Annotated[
             bool,
             typer.Option(
-                "--no-momentnorm",
-                help="Disable moment normalization.",
+                "--momentnorm/--no-momentnorm",
+                help="Disable moment normalization with `--no-momentnorm`.",
                 show_default=False
                 )
             ] = True,

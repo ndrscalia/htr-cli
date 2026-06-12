@@ -20,41 +20,41 @@ def process_images(
         contrast_stretch: Annotated[
             bool,
             typer.Option(
-                "--no-contrast-stretch",
-                help="Disable contrast stretch.",
-                show_default=False
+                "--contrast-stretch/--no-contrast-stretch",
+                help="Disable contrast stretch with `--no-contrast-stretch`.",
+                show_default=True
                 )
             ] = True,
         enhance_sauvola: Annotated[
             bool,
             typer.Option(
-                "--no-enhance-sauvola",
-                help="Disable enhance Sauvola.",
-                show_default=False
+                "--enhance-sauvola/--no-enhance-sauvola",
+                help="Disable enhance Sauvola with `--no-enhance-sauvola`.",
+                show_default=True
                 )
             ] = True,
         deslope: Annotated[
             bool,
             typer.Option(
-                "--no-deslope",
-                help="Disable deslope.",
-                show_default=False
+                "--deslope/--no-deslope",
+                help="Disable deslope with `--no-deslope`.",
+                show_default=True
                 )
             ] = True,
         deslant: Annotated[
             bool,
             typer.Option(
-                "--no-deslant",
-                help="Disable deslant.",
-                show_default=False
+                "--deslant/--no-deslant",
+                help="Disable deslant with `--no-deslant`.",
+                show_default=True
                 )
             ] = True,
         moment_normalize: Annotated[
             bool,
             typer.Option(
-                "--no-moment-normalize",
-                help="Disable moment normalize.",
-                show_default=False
+                "--moment-normalize/--no-moment-normalize",
+                help="Disable moment normalize with `--no-moment-normalize`.",
+                show_default=True
                 )
             ] = True,
         light_pipeline: Annotated[
@@ -68,7 +68,7 @@ def process_images(
         full_pipeline: Annotated[
                 bool,
                 typer.Option(
-                "--full-pipeline",
+                "--full-pipeline/--no-full-pipeline",
                 show_default=True
                 )
             ] = True,

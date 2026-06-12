@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "htr-cli"
-version = "0.3.0"
+version = "0.3.1"
 description = "CLI for preparing Handwritten Text Recognition (HTR) datasets for PyLaia traininig."
 readme = "README.md"
 requires-python = ">=3.11"
